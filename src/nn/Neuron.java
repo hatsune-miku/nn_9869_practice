@@ -1,9 +1,19 @@
 package nn;
 
-public class Neuron {
+public class Neuron implements Runnable {
     protected boolean isInputLayer;
+    protected double weight;
 
-    public Neuron() {
+    public Neuron(double weight) {
+        this.weight = weight;
+    }
+
+    public void start() {
+
+    }
+
+    @Override
+    public void run() {
 
     }
 
@@ -11,11 +21,15 @@ public class Neuron {
         return isInputLayer;
     }
 
-    public void setInputLayer(boolean inputLayer) {
-        isInputLayer = inputLayer;
+    public void setInputLayer(boolean isInputLayer) {
+        this.isInputLayer = isInputLayer;
     }
 
-    public void start() {
+    public double getWeight() {
+        return weight;
+    }
 
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 }

@@ -1,4 +1,4 @@
-package nn.generator;
+package test.generator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.Writer;
 
 // This class
 public class RandomWeightGenerator {
-    int numLayers;
+    int numInternalLayers;
     double lowerBound;
     double upperBound;
 
@@ -28,11 +28,17 @@ public class RandomWeightGenerator {
 
 
     // Class constructor
-    public RandomWeightGenerator(String outputfilename, int L, double lowerBound, double upperBound, double noLinkProbability) {
-        RandomWeightGenerator.outputFileName = outputfilename;
+    public RandomWeightGenerator(
+        String outputFilename,
+        int numInternalLayers,
+        double lowerBound,
+        double upperBound,
+        double noLinkProbability
+    ) {
+        RandomWeightGenerator.outputFileName = outputFilename;
         RandomWeightGenerator.noLinkProbability = noLinkProbability;
 
-        numLayers = L;
+        this.numInternalLayers = numInternalLayers;
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
@@ -48,7 +54,7 @@ public class RandomWeightGenerator {
         File WeightFile = new File(outputFileName); // "weights.txt"
         try {
             weightWriter = new BufferedWriter(new FileWriter(WeightFile));
-            weightWriter.write(numLayers + separator);
+            weightWriter.write(numInternalLayers + separator);
             double randWeight;
 
             // WEIGHTS BETWEEN INPUT LAYER AND FIRST INTERNAL LAYER
@@ -70,7 +76,7 @@ public class RandomWeightGenerator {
             }
 
             // WEIGHTS BETWEEN INTERNAL LAYERS
-            for (int l = 0; l < numLayers - 1; l++) {
+            for (int l = 0; l < numInternalLayers - 1; l++) {
                 for (int i = 0; i < numNeuronsInternalLayer; i++) {
                     for (int j = 0; j < numNeuronsInternalLayer; j++) {
                         if (Math.random() < noLinkProbability) {

@@ -1,4 +1,4 @@
-package nn.generator;
+package test.generator;
 
 import java.io.BufferedWriter;
 import java.io.File;
