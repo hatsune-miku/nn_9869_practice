@@ -1,5 +1,7 @@
 ### 9869 Practice: Simple Neural Network
 
+Student Number: 202191382 (zguan#mun.ca)
+
 ![Sample Output](images/result.png)
 
 ### Question: Can you reuse your synchronization mechanism? Why or why not?
