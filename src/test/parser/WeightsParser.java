@@ -1,5 +1,6 @@
 package test.parser;
 
+import nn.NeuralNetwork;
 import nn.WeightTable;
 
 import java.io.File;
@@ -7,8 +8,11 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class WeightsParser extends AbstractFileParser<WeightTable> {
-    public WeightsParser(String filename) throws FileUnreadableException {
+    private final int[] numLayerNeurons;
+
+    public WeightsParser(String filename, int[] numLayerNeurons) throws FileUnreadableException {
         super(filename);
+        this.numLayerNeurons = numLayerNeurons;
     }
 
     @Override
@@ -28,14 +32,9 @@ public class WeightsParser extends AbstractFileParser<WeightTable> {
         // -1 because the last layer is not anyone's previous layer.
         double[][][] table = new double[numLayers + 1 - 1][][];
 
-        // TODO: solve dirty patch.
-        int[] layerNeurons = {
-            4, 5, 5, 5, 5, 3
-        };
-
         // Skip first layer as it is input layer.
         ++currentLayerIndex;
-        table[currentLayerIndex] = new double[layerNeurons[currentLayerIndex - 1]][];
+        table[currentLayerIndex] = new double[numLayerNeurons[currentLayerIndex - 1]][];
 
         // Repeatedly readline -- each line represent a single neuron.
         while (true) {
@@ -50,7 +49,7 @@ public class WeightsParser extends AbstractFileParser<WeightTable> {
             table[currentLayerIndex][currentNeuronIndex++] = weights;
 
             // Next layer?
-            if (currentNeuronIndex >= layerNeurons[currentLayerIndex - 1]) {
+            if (currentNeuronIndex >= numLayerNeurons[currentLayerIndex - 1]) {
                 ++currentLayerIndex;
 
                 // Exit condition: reached the last layer?
@@ -60,7 +59,7 @@ public class WeightsParser extends AbstractFileParser<WeightTable> {
 
                 // Allocate space for next layer.
                 // Reset neuron counter.
-                table[currentLayerIndex] = new double[layerNeurons[currentLayerIndex - 1]][];
+                table[currentLayerIndex] = new double[numLayerNeurons[currentLayerIndex - 1]][];
                 currentNeuronIndex = 0;
             }
         }
