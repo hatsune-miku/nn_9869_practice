@@ -74,4 +74,8 @@ public class NeuralNetworkLayer extends Thread {
     public NeuralNetwork getNetwork() {
         return network;
     }
+
+    public void setLatch(CountDownLatch latch) {
+        this.latch = latch;
+    }
 }

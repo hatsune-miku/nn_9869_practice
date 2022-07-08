@@ -15,8 +15,14 @@ public class ExternalInputTable {
      * Constructor.
      *
      * @param numNeurons The number of neurons in the input layer.
+     * @throws IllegalArgumentException if numNeurons <= 0 or > upper limit.
      */
     public ExternalInputTable(int numNeurons) {
+        if (numNeurons <= 0 || numNeurons > NEURONS_COUNT_MAX) {
+            throw new IllegalArgumentException(
+                "Invalid number of neurons."
+            );
+        }
         this.table = new double[numNeurons];
     }
 

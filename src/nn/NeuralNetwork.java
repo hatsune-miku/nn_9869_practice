@@ -29,30 +29,30 @@ public class NeuralNetwork {
     /**
      * Constructor.
      *
-     * @param numLayerNeurons    numLayerNeurons[X] = Y means that layer X has Y neurons.
+     * @param numNeuronsInLayer    numNeuronsInLayer[X] = Y means that layer X has Y neurons.
      * @param globalWeights      -
      * @param externalInputs     -
      * @param activationFunction -
      */
     public NeuralNetwork(
-        int[] numLayerNeurons,
+        int[] numNeuronsInLayer,
         WeightTable globalWeights,
         ExternalInputTable externalInputs,
         IFunction activationFunction
     ) {
-        this.numLayerNeurons = numLayerNeurons;
+        this.numLayerNeurons = numNeuronsInLayer;
         this.layers = new ArrayList<>();
         this.globalWeights = globalWeights;
         this.externalInputs = externalInputs;
 
         // Generate layers.
-        for (int i = 0; i < numLayerNeurons.length; ++i) {
+        for (int i = 0; i < numNeuronsInLayer.length; ++i) {
             NeuralNetworkLayer.LayerType layerType;
             if (i == 0) {
                 // Input layer.
                 layerType = NeuralNetworkLayer.LayerType.INPUT;
 
-            } else if (i == numLayerNeurons.length - 1) {
+            } else if (i == numNeuronsInLayer.length - 1) {
                 // Output layer.
                 layerType = NeuralNetworkLayer.LayerType.OUTPUT;
 
@@ -62,7 +62,7 @@ public class NeuralNetwork {
             }
             layers.add(new NeuralNetworkLayer(
                 this, layerType,
-                i, numLayerNeurons[i], activationFunction
+                i, numNeuronsInLayer[i], activationFunction
             ));
         }
     }
@@ -79,6 +79,7 @@ public class NeuralNetwork {
             // Create the latch and set the capacity to
             // be equal to the number of neurons.
             CountDownLatch latch = new CountDownLatch(layer.getNeurons().size());
+            layer.setLatch(latch);
             layer.start();
 
             try {
@@ -93,10 +94,6 @@ public class NeuralNetwork {
             // Next layer, another latch will be created
             // and old one will be collected.
         }
-    }
-
-    public int[] getNumLayerNeurons() {
-        return numLayerNeurons;
     }
 
     public NeuralNetworkLayer getOutputLayer() {

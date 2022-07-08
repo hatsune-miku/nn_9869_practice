@@ -1,7 +1,4 @@
-import nn.ExternalInputTable;
-import nn.NeuralNetwork;
-import nn.Neuron;
-import nn.WeightTable;
+import nn.*;
 import nn.functions.FunctionFactory;
 import test.parser.AbstractFileParser;
 import test.parser.ExternalInputParser;
@@ -11,20 +8,26 @@ import java.io.*;
 import java.util.List;
 
 /**
- * Tested to be successfully generate 17567.6798
- * with Dr. Shahidi's sample input.
+ * Tested to be successfully generate 17567.679840
+ * with Dr. Shahidi's sample weights and inputs.
  */
 public class Main {
     public static void main(String[] args) {
-        int[] numLayerNeurons = {4, 5, 5, 5, 5, 3};
         WeightsParser weightsParser;
         ExternalInputParser inputParser;
         FunctionFactory functionFactory = new FunctionFactory();
 
+        // Default config:
+        // 4 neurons in input layer;
+        // 5 neurons in each internal layer;
+        // 3 neurons in output layer.
+        Config networkConfig = Config.defaultConfig();
+
         // Parse weights and inputs.
         try {
             weightsParser = new WeightsParser(
-                "weights.txt", numLayerNeurons);
+                "weights.txt", networkConfig
+            );
             inputParser = new ExternalInputParser(
                 "inputs.txt"
             );
@@ -37,7 +40,7 @@ public class Main {
 
         // Build the network.
         NeuralNetwork network = new NeuralNetwork(
-            numLayerNeurons, weights, inputs,
+            weightsParser.getNumNeuronsInLayer(), weights, inputs,
             functionFactory.relu()
         );
 
@@ -75,5 +78,8 @@ public class Main {
             System.err.printf(
                 "Failed to write output file (%s).\n", outputFile);
         }
+
+        // According to the question, nothing should be
+        // printed to stdout.
     }
 }

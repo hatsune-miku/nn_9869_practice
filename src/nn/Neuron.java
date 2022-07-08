@@ -5,15 +5,35 @@ import nn.functions.IFunction;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * The basic unit of the neural network.
+ */
 public class Neuron extends Thread {
+    /**
+     * Each neuron keep a reference to the network
+     * to obtain some information including `globalWeights`.
+     */
     protected final NeuralNetwork network;
     protected final IFunction activationFunction;
+
+    /**
+     * Neurons also remember corresponding layer's index
+     * and themselves.
+     */
     protected final int layerIndex;
     protected final int neuronIndex;
 
     protected boolean isInputLayer;
+
+    /**
+     * Store the output of the neuron.
+     * Initially 0.
+     */
     protected double calculatedOutput;
 
+    /**
+     * Concurrent control for layers.
+     */
     protected CountDownLatch latch;
 
     public Neuron(
