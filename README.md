@@ -7,7 +7,8 @@ Student Number: 202191382 (zguan#mun.ca)
 ### Question: Can you reuse your synchronization mechanism? Why or why not?
 
 I think yes. On each `run` of the layer 
-I create a new `CountDownLatch` and wait forever until all of them are done.
+I create a new `CountDownLatch` and wait forever until all neurons are done.
+After that the next layer can proceed.
 Therefore, although we run the same network in many threads at the same time,
 the synchronization mechanism should still work.
 
