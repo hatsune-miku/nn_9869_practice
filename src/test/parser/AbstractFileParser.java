@@ -1,7 +1,11 @@
+/*
+ * zguan@mun.ca
+ * Student Number: 202191382
+ */
+
 package test.parser;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.Scanner;
 
 public abstract class AbstractFileParser<T> {

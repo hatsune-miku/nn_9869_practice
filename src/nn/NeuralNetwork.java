@@ -1,12 +1,15 @@
+/*
+ * zguan@mun.ca
+ * Student Number: 202191382
+ */
+
 package nn;
 
-import nn.functions.FunctionFactory;
 import nn.functions.IFunction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 
 public class NeuralNetwork {
     /**

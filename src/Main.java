@@ -1,3 +1,8 @@
+/*
+ * zguan@mun.ca
+ * Student Number: 202191382
+ */
+
 import nn.*;
 import nn.functions.FunctionFactory;
 import test.parser.AbstractFileParser;

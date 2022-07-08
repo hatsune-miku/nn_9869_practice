@@ -1,3 +1,8 @@
+/*
+ * zguan@mun.ca
+ * Student Number: 202191382
+ */
+
 package nn;
 
 import nn.functions.IFunction;
@@ -76,18 +81,18 @@ public class Neuron extends Thread {
         } else {
             // Get output from previous layer.
             WeightTable weights = network.getGlobalWeights();
-            List<Neuron> lastNeurons = network
+            List<Neuron> prevNeurons = network
                 .getLayers().get(layerIndex - 1)
                 .getNeurons();
             output = 0;
-            for (Neuron lastNeuron : lastNeurons) {
-                // Get weight and last output.
-                int lastIndex = lastNeuron.getNeuronIndex();
-                double lastOutput = lastNeuron.getCalculatedOutput();
-                double weight = weights.getWeight(layerIndex, lastIndex, neuronIndex);
+            for (Neuron prevNeuron : prevNeurons) {
+                // Get weight and previous output.
+                int prevNeuronIndex = prevNeuron.getNeuronIndex();
+                double prevOutput = prevNeuron.getCalculatedOutput();
+                double weight = weights.getWeight(layerIndex, prevNeuronIndex, neuronIndex);
 
                 // Sum up to self output.
-                output += lastOutput * weight;
+                output += prevOutput * weight;
             }
         }
         // Apply activation function.
