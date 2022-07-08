@@ -41,7 +41,7 @@ public class RandomWeightGenerator {
      * Generates random weights equal to zero with a probability of `noLinkProbability`, and otherwise
      * uniformly distributed between `lowerBound` and `upperBound`.
      */
-    public void GenerateRandomWeightFile() {
+    public void generateRandomWeightFile() {
         String separator = System.getProperty("line.separator");
 
         Writer weightWriter;
