@@ -1,15 +1,24 @@
 package test.parser;
 
-import nn.NeuralNetwork;
 import nn.WeightTable;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Weight parser. Convert `weight.txt` into `WeightTable`.
+ */
 public class WeightsParser extends AbstractFileParser<WeightTable> {
     private final int[] numLayerNeurons;
 
+    /**
+     * Constructor.
+     *
+     * @param filename        -
+     * @param numLayerNeurons numLayerNeurons[X] = Y means that layer X has Y neurons.
+     * @throws FileUnreadableException if the output file does not exist
+     *                                 or have no write permission.
+     */
     public WeightsParser(String filename, int[] numLayerNeurons) throws FileUnreadableException {
         super(filename);
         this.numLayerNeurons = numLayerNeurons;
@@ -23,7 +32,7 @@ public class WeightsParser extends AbstractFileParser<WeightTable> {
         // Skip current empty line.
         scanner.nextLine();
 
-        // One for input layer, one for output layer.
+        // One +1 for input layer, one +1 for output layer.
         int numLayers = numInternalLayers + 1 + 1;
         int currentLayerIndex = 0;
         int currentNeuronIndex = 0;

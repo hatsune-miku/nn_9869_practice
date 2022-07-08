@@ -3,8 +3,9 @@ package nn;
 import nn.functions.IFunction;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
-public class Neuron implements Runnable {
+public class Neuron extends Thread {
     protected final NeuralNetwork network;
     protected final IFunction activationFunction;
     protected final int layerIndex;
@@ -12,6 +13,8 @@ public class Neuron implements Runnable {
 
     protected boolean isInputLayer;
     protected double calculatedOutput;
+
+    protected CountDownLatch latch;
 
     public Neuron(
         NeuralNetwork network,
@@ -25,11 +28,9 @@ public class Neuron implements Runnable {
         this.neuronIndex = neuronIndex;
         this.calculatedOutput = 0;
         this.isInputLayer = false;
+        this.latch = null;
     }
 
-    public void start() {
-        run();
-    }
 
     /**
      * Run this neuron according to the formula of fully-connected layer:
@@ -46,6 +47,8 @@ public class Neuron implements Runnable {
     public void run() {
         double output;
 
+        // Don't need a mutex, because all
+        // these operations are thread-local or read-only.
         if (isInputLayer) {
             // Get output from external input.
             ExternalInputTable inputs = network.getExternalInputs();
@@ -71,6 +74,12 @@ public class Neuron implements Runnable {
         setCalculatedOutput(
             activationFunction.apply(output)
         );
+
+        // I am ready!
+        if (latch != null) {
+            latch.countDown();
+            latch = null;
+        }
     }
 
     public boolean isInputLayer() {
@@ -91,5 +100,9 @@ public class Neuron implements Runnable {
 
     public int getNeuronIndex() {
         return neuronIndex;
+    }
+
+    public void setLatch(CountDownLatch latch) {
+        this.latch = latch;
     }
 }
